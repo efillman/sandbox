@@ -1,17 +1,23 @@
-//tests
+
 // Write a function that takes a number as its argument and returns a string that represents that number's simplified fraction.
 // Example: toFraction(0.5) === '1/2'
 // Whole numbers and mixed fractions should be returned as irregular fractions
-// Example: toFraction(3.0) === '3/1'
-// Example: toFraction(2.5) === '5/2'
-
 function toFraction(number) {
-  // pseudo code
-  //Step 1: Rewrite the decimal number as a fraction with 1 in the denominator
-  let top = number;
-  let bottom = 1;
 
-  //Step 2: Multiply to remove x(1) decimal places. Here, you multiply top and bottom by 103 = 1000
+	//Step 1: Rewrite the decimal number as a fraction with 1 in the denominator
+	//initialize variables
+	let top = number;
+  let bottom = 1;
+	let isTopNegative = false;
+
+	//check if number is negative
+	if (number < 0) {
+		isTopNegative = true;
+		top = Math.abs(number);
+	}
+
+	//Step 2: Multiply to remove x(1) decimal places. Here, you multiply top and bottom by 103 = 1000
+	//detrmine amount of decimals needed
 	let decimalsNeeded = findDecimalPlaces(top);
   top = top * Math.pow(10, decimalsNeeded);
   bottom = bottom * Math.pow(10, decimalsNeeded);
@@ -23,14 +29,21 @@ function toFraction(number) {
   top = top / GCF;
   bottom = bottom / GCF;
 
-  //Step 5: output string of simplified fraction
-  return `${top}/${bottom}`;
+  //Step 5: output string of simplified fraction, check if it was negative
+	if (isTopNegative) {
+		return "-"+top+"/"+bottom+"";
+	}
+  return ""+top+"/"+bottom+"";
 
 };
-//.5, .55, 302.254
+
 //return number of decimals in input variable
 function findDecimalPlaces(x) {
 	let num = x.toString().split(".")
+	//if number passed was .0 javascript dropped the .0 so add 1 decimal place
+	if (num[1] === undefined) {
+		return 1;
+	}
 	return num[1].length;
 }
 
@@ -42,5 +55,7 @@ function findGreatestCommonFactor(top, bottom) {
   }
 }
 
-//console.log(findDecimalPlaces(2.55));
-console.log(toFraction(2.5));
+//tests
+console.log(toFraction(3.0));
+console.log(toFraction(-2.5));
+console.log(toFraction(5.7));
