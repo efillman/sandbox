@@ -47,6 +47,12 @@ function findDecimalPlaces(x) {
 	return num[1].length;
 }
 
+/**
+ *
+ * @param {*} top
+ * @param {*} bottom
+ * @returns
+ */
 function findGreatestCommonFactor(top, bottom) {
   if (bottom < 0.0000001) {
     return top;
